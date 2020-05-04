@@ -30,10 +30,6 @@ class Database
         self::$connexion=null;
     }
 }
-
-
-
-
 Database::connect();
 
 ?>
