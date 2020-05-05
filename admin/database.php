@@ -4,32 +4,32 @@
 class Database
 {
     
-    private static $dbhost="localhost";
-    private static $dbname="burger_menu";
-    private static $userdb="root";
-    private static $passwordd="";
+    private static $dbHost = "localhost";
+    private static $dbName = "burger_menu";
+    private static $dbUsername = "root";
+    private static $dbUserpassword = "";
     
-    private static $connexion="null";
- 
+    private static $connection = null;
     
     public static function connect()
     {
-        try{
-            self::$connexion = new PDO("mysql:host:" . self::$dbhost . ";dbname= " . self::$dbname,self::$userdb,self::$passwordd);
-        }
-        catch (PDOException $e)
+        if(self::$connection == null)
         {
-            die($e->getMessage());
+            try
+            {
+              self::$connection = new PDO("mysql:host=" . self::$dbHost . ";dbname=" . self::$dbName , self::$dbUsername, self::$dbUserpassword);
+            }
+            catch(PDOException $e)
+            {
+                die($e->getMessage());
+            }
         }
-        return self::$connexion;
-
+        return self::$connection;
     }
     
-    public static function disconnect ()
+    public static function disconnect()
     {
-        self::$connexion=null;
+        self::$connection = null;
     }
 }
-Database::connect();
-
 ?>
