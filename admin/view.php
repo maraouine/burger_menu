@@ -32,9 +32,8 @@ Database::disconnect();
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Burger menu</title>
-                <meta charset="utf-8"/>
-
+        <title>View list items</title>
+         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -60,7 +59,7 @@ Database::disconnect();
                             <label>Description : </label><?php echo ' ' . $item['description'];?>
                         </div>
                         <div class="form-group">
-                            <label>Prix : </label><?php echo ' ' . number_format((float)$item['price'],2,'.','');?>
+                            <label>Prix : </label><?php echo ' ' . number_format((float)$item['price'],2,'.','') . ' €';?>
                         </div>
                         <div class="form-group">
                             <label>Catégorie</label><?php echo ' ' . $item['category'];?>
@@ -79,7 +78,7 @@ Database::disconnect();
                  <div class="col-sm-6 site">
                             <div class="thumbnail">
                                 <img src="<?php echo '../images/' . $item['image'];?>" alt="">
-                                <div class="price"><?php echo ' ' . number_format((float)$item['price'],2,'.','');?></div>
+                                <div class="price"><?php echo ' ' . number_format((float)$item['price'],2,'.','') . ' €';?></div>
                                 <div class="caption">
                                     <h4><?php echo $item['name'];?></h4>
                                     <p><?php echo $item['description'];?></p>
