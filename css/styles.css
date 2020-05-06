@@ -28,6 +28,11 @@ background:url(../images/bg.png);
 {
     background:#ffd301;
 }
+
+.h3
+{
+    
+}
 .price
 {
     background: #5cb85c;
@@ -106,4 +111,10 @@ background:url(../images/bg.png);
 .help-inline
 {
     color: red;
+}
+
+.required-input
+{
+    color: blue;
+    font-size: 20px;
 }
