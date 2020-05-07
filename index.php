@@ -14,43 +14,66 @@
     </head>
     
     <body>
-      
-        <h1 class="text-logo"><span class="glyphicon glyphicon-cutlery"></span>  Burger menu <span class="glyphicon glyphicon-cutlery"></span></h1>
-        
-        <div class="container admin">
-            <div>
-                <form action="checkUser.php" method="POST">
-                <h1>Connexion</h1>
-                
-                <div class="form-group">
-                     <label><b>Nom d'utilisateur <span class="required-input">*</span></b></label>
-                    <input class="form-control" type="text" placeholder="Entrer le nom d'utilisateur" name="username" required>   
-                </div>
-               
-                <div class="form-group">
-                     <label><b>Mot de passe <span class="required-input">*</span></b></label>
-                     <input class="form-control" type="password" placeholder="Entrer le mot de passe" name="password" required>  
-                </div>
-                <div class="form-group">
-                     <label ><span class="required-input">*</span> Champs obligatoire</label>
-                </div>
-                 <div class="form-actions">
-                        <a class="btn btn-primary btn-lg pull-right" href="connexion.php">Connexion</a>
-                </div>
-                    <div class="form-actions">
-                        <a class="btn btn-secondary btn-lg pull-right" href="createUsers.php"><span class="glyphicon glyphicon-plus"></span>  Première commande </a>
-                    </div>
-                <?php
-                if(isset($_GET['erreur'])){
-                    $err = $_GET['erreur'];
-                    if($err==1 || $err==2)
-                        echo "<p style='color:red'>Utilisateur ou mot de passe incorrect</p>";
-                }
-                ?>
-            </form>
-            </div>
-        
+        <div class="container site">
+            <h1 class="text-logo"><span class="glyphicon glyphicon-cutlery"></span>  Burger menu <span class="glyphicon glyphicon-cutlery"></span></h1>
+            
+            
 
+            <?php
+                require 'admin/database.php';
+                echo '<nav>
+                <ul class="nav nav-pills">';
+                $db=Database::connect();
+                $statment=$db->query('SELECT * FROM categories');
+                $categories=$statment->fetchAll();
+                foreach($categories as $category)
+                {
+                    if($category['id']=='1')
+                    {
+                        echo '<li role="presentation" class="active"><a href="#' . $category['id'] . '" data-toggle="tab">'. $category['name'] .'</a></li>';
+                    }
+                    else
+                        echo '<li role="presentation"><a href="#' . $category['id'] . '" data-toggle="tab">'. $category['name'] .'</a></li>';
+
+                }
+                echo '</ul>
+                </nav>';
+            
+                echo '<div class="tab-content">';
+                    foreach($categories as $category)
+                    {
+                        if($category['id']=='1')
+                        {
+                            echo '<div class="tab-pane active" id="'. $category['id'] .'">';
+                        }
+                        else
+                            echo '<div class="tab-pane" id="'. $category['id'] .'">';
+                        echo '<div class="row">';
+                        $statement=$db->prepare('SELECT * FROM items WHERE items.category=?');
+                        $statement->execute(array($category['id']));
+                        
+                        while ($item=$statement->fetch())
+                        {
+                            echo '<div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="images/' . $item['image'] .'" alt="">
+                                <div class="price">'. number_format((float)$item['price'],2,'.','') .' €</div>
+                                <div class="caption">
+                                    <h4>' . $item['name'] .'</h4>
+                                    <p>'. $item['description'] .'</p>
+                                    <a href="#" class="btn btn-order" role="button"><span class="glyphicon glyphicon-shopping-cart"></span>Commander</a>
+                                </div>
+                            </div>
+                            </div>';
+                        }
+                        echo '</div>
+                            </div>';
+                    
+                    }
+                    Database::disconnect();
+                echo '</div>';
+            
+            ?>
         </div>
         
     </body>
